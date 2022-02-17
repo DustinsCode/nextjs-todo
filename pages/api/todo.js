@@ -29,11 +29,14 @@ export default function handler(req, res) {
     ]
 
     if (req.method === 'POST') {
-        //TODO: do something with incoming request
-        
-        res.status(200).json(JSON.stringify(dummyData))
+        let item = req.body
+        let newItem = {
+            id: dummyData.length,
+            completed: false,
+            text: item.text
+        }
+        res.status(200).json(JSON.stringify([...dummyData, newItem]))
     }else if (req.method === 'GET') {
-        // res.status(200).json({name: "correct"})
         res.status(200).json(JSON.stringify(dummyData))
     }
 }

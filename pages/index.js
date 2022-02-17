@@ -7,6 +7,7 @@ import axios from 'axios'
 export default function Home() {
 
   const [items, setItems] = useState([])
+  const [newItem, setNewItem] = useState("")
 
   useEffect(() => {
     fetchData()
@@ -24,6 +25,17 @@ export default function Home() {
     })
   }
 
+  function handleInput(e) {
+    if (newItem != "") {
+      e.preventDefault()
+      axios.post('api/todo',{text: newItem})
+        .then((res) => {
+          setItems([...res.data])
+          setNewItem("")
+        })
+    }
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -34,6 +46,13 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1>Do The Thing</h1>
+        <form onSubmit={handleInput}>
+          <input 
+            value={newItem}
+            placeholder='Add ToDo Item'
+            onChange={(e) => setNewItem(e.target.value)}
+          />
+        </form>
         {
           items.map((item) => {
             return (
